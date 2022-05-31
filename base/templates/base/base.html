@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'base/images/logo.svg' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'base/styles/style.css' %}" />
+    <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.17.1/full/ckeditor.js"></script>
+    <title>StackNiche - Find study partners around the world!</title>
+  </head>
+
+  <style>
+    .pages{
+  padding: 0.5rem 1rem;
+  background: rgba( 224, 224, 237, 0.2 );
+  box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+  backdrop-filter: blur( 11px );
+  -webkit-backdrop-filter: blur( 11px );
+  border-radius: 3px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-left: 5px;
+    }
+  </style>
+
+  <body>
+    <div class="section">
+        {% include 'base/navbar.html' %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+
+            <Li>{{ message }}</Li>
+
+            {% endfor %}
+
+        </ul>
+    {% endif %}
+
+    {% block content %}
+
+    {% endblock content %}
+    
+        
+        <div class="center" style="padding-bottom: 40px;">
+          {% if rooms.has_other_pages %}
+
+            {% if rooms.has_previous %}
+            <a class="pages" href="?page=1"><span>First</span></a>
+            <a class="pages" href="?page={{ rooms.previous_page_number }}"><span>&langle;&langle;</span></a>
+            {% endif %}
+
+            {% for  num in rooms.paginator.page_range %}
+            {% if rooms.number == num %}
+            <a class="pages" style="background-color: #35185A;" href="?page={{ num }}"><span>{{ num }}</span></a>
+            {% elif num  > rooms.number|add:'-3' and num  < rooms.number|add:'3' %}
+            <a class="pages" href="?page={{ num }}"><span>{{ num }}</span></a>
+            {% endif %}
+            {% endfor %}
+
+            {% if rooms.has_next %}
+            <a class="pages" href="?page={{ rooms.next_page_number }}"><span>&rangle;&rangle;</span></a>
+            <a class="pages" href="?page={{ rooms.paginator.num_pages }}"><span>Last</span></a>
+            {% endif %}
+
+          {% endif %}
+
+
+          {% if room_messages.has_other_pages %}
+
+            {% if room_messages.has_previous %}
+              <a class="pages" href="?page=1"><span>First</span></a>
+              <a class="pages" href="?page={{ room_messages.previous_page_number }}"><span>&langle;&langle;</span></a>
+            {% endif %}
+
+            {% for  num in room_messages.paginator.page_range %}
+            {% if rooms.number == num %}
+            <a class="pages" style="background-color: #2a1348;" href="?page={{ num }}"><span>{{ num }}</span></a>
+            {% elif num  > room_messages.number|add:'-3' and num  < room_messages.number|add:'3' %}
+            <a class="pages" href="?page={{ num }}"><span>{{ num }}</span></a>
+            {% endif %}
+            {% endfor %}
+
+            {% if room_messages.has_next %}
+              <a class="pages" href="?page={{ room_messages.next_page_number }}"><span>&rangle;&rangle;</span></a>
+              <a class="pages" href="?page={{ room_messages.paginator.num_pages }}"><span>Last</span></a>
+            {% endif %}
+
+          {% endif %}
+
+        </div>
+        
+
+    </div>
+    
+    <script src="{% static 'base/js/script.js' %}"></script>
+  </body>
+</html>

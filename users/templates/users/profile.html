@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+  <main class="profile-page layout layout--3">
+    <div class="container">
+      <!-- Topics Start -->
+      {% include 'base/topics_component.html' %}
+      <!-- Topics End -->
+
+      <!-- Room List Start -->
+      <div class="roomList">
+        <div class="profile">
+          <div class="profile__avatar">
+            <div class="avatar avatar--large {% if user.is_active %} active {% endif %}">
+              <img src="{{ user.avatar.url }}" />
+            </div>
+          </div>
+          <div class="profile__info">
+            <h3>{{ user.get_full_name }}</h3>
+
+            {% if request.user == user %}
+            <a href="{% url 'profileupdate' %}" class="btn btn--main btn--pill">Edit Profile</a>
+            {% endif %}
+
+          <br>
+            <p style="margin-top: 5px;">
+              {% if user.instagram %}
+              <a href="https://instagram.com/{{ user.instagram }}" target="blank" ><span class="iconify" data-icon="ant-design:instagram-filled" data-width="20" data-height="20"></span></a>
+              {% endif %}
+              {% if user.twitter %}
+              <a href="https://twitter.com/{{ user.twitter }}" target="blank" ><span class="iconify" data-icon="akar-icons:twitter-fill" data-width="20" data-height="20"></span></a>
+              {% endif %}
+              {% if user.linkedin %}
+              <a href="https://linkedin.com/{{ user.linkedin }}" target="blank" ><span class="iconify" data-icon="akar-icons:linkedin-fill" data-width="20" data-height="20"></span></a>
+              {% endif %}
+            </p>
+           
+          </div>
+          <div class="profile__about">
+            
+            <h3>About</h3>
+            <p>
+              {{ user.bio | safe }}
+            </p
+            <p> 
+              
+              
+              </p>
+          </div>
+        </div>
+
+        <div class="roomList__header">
+          <div>
+            <h2>Study Rooms Hosted by {{ user.username }}</a>
+            </h2>
+          </div>
+        </div>
+        {% include 'base/feeds_component.html' %}
+      </div>
+      <!-- Room List End -->
+
+      <!-- Activities Start -->
+      <div class="activities">
+        <div class="activities__header">
+          <h2>Recent Activities</h2>
+        </div>
+        {% include "base/activity_component.html" %}
+      </div>
+      <!-- Activities End -->
+    </div>
+  </main>
+ {% endblock content %}
